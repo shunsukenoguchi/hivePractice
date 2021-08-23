@@ -21,9 +21,9 @@ class MainModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void deleteTodo() {
-    box.delete('todos');
-    print(box.get('todos'));
+  void deleteTodo(int index) {
+    todoList.removeAt(index);
+    box.put('todos', todoList);
     notifyListeners();
   }
 }

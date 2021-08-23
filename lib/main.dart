@@ -51,16 +51,11 @@ class TodoPage extends StatelessWidget {
                 height: 300,
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return _todoItem(todoList[index]);
+                    return _todoItem(todoList[index], index);
                   },
                   itemCount: todoList.length,
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    mainModel.deleteTodo();
-                  },
-                  child: Text('削除')),
             ],
           );
         }),
@@ -76,21 +71,26 @@ class TodoPage extends StatelessWidget {
   }
 }
 
-Widget _todoItem(String title) {
-  return Container(
-    decoration: new BoxDecoration(
-        border: new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
-    child: ListTile(
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.black, fontSize: 18.0),
+Widget _todoItem(String title, int index) {
+  return Consumer(builder: (context, watch, child) {
+    final mainModel = context.read(mainProvider);
+    return Container(
+      decoration: new BoxDecoration(
+          border:
+              new Border(bottom: BorderSide(width: 1.0, color: Colors.grey))),
+      child: ListTile(
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        trailing: Icon(Icons.more_vert),
+        onTap: () {
+          mainModel.deleteTodo(index);
+        }, // タップ
+        onLongPress: () {
+          print("onLongTap called.");
+        }, // 長押し
       ),
-      onTap: () {
-        print("onTap called.");
-      }, // タップ
-      onLongPress: () {
-        print("onLongTap called.");
-      }, // 長押し
-    ),
-  );
+    );
+  });
 }
