@@ -37,8 +37,8 @@ class TodoPage extends StatelessWidget {
       ),
       body: Center(
         child: Consumer(builder: (context, watch, child) {
-          final box = watch(mainProvider).box;
-          print(box);
+          final List todoList = watch(mainProvider).todoList;
+          mainModel.setTodoList();
           return Column(
             children: [
               TextField(
@@ -51,9 +51,9 @@ class TodoPage extends StatelessWidget {
                 height: 300,
                 child: ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return _todoItem(box.getAt(index));
+                    return _todoItem(todoList[index]);
                   },
-                  itemCount: box.length,
+                  itemCount: todoList.length,
                 ),
               ),
               ElevatedButton(

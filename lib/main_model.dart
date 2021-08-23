@@ -9,15 +9,21 @@ final mainProvider = ChangeNotifierProvider<MainModel>(
 
 class MainModel extends ChangeNotifier {
   final box = Hive.box('todoList');
+  List todoList = [];
+
+  setTodoList() {
+    todoList = box.get('todos');
+  }
 
   void addTodo(todo) {
-    box.put('todo', todo);
+    todoList.add(todo);
+    box.put('todos', todoList);
     notifyListeners();
   }
 
   void deleteTodo() {
-    box.delete('todo');
-    print(box.get('todo'));
+    box.delete('todos');
+    print(box.get('todos'));
     notifyListeners();
   }
 }
